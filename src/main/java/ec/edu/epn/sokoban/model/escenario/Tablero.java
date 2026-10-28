@@ -98,10 +98,10 @@ public class Tablero extends Casilla {
 
             if (nuevaCasilla instanceof Meta) {
                 this.metas[f][c] = true;
-            } else if (nuevaCasilla instanceof Personaje) {
-                this.personaje = (Personaje) nuevaCasilla;
-            } else if (nuevaCasilla instanceof Caja) {
-                ((Caja) nuevaCasilla).setEnMeta(esCeldaMeta(f, c));
+            } else if (nuevaCasilla instanceof Personaje personaje) {
+                this.personaje = personaje;
+            } else if (nuevaCasilla instanceof Caja caja) {
+                caja.setEnMeta(esCeldaMeta(f, c));
             }
         }
 
@@ -129,7 +129,7 @@ public class Tablero extends Casilla {
 
     public boolean esCeldaTransitable(int f, int c) {
         Casilla casilla = obtenerCasilla(f, c);
-        return casilla != null && casilla instanceof Transitable && ((Transitable) casilla).verificarTransitabilidad();
+        return casilla != null && casilla instanceof Transitable transitable && transitable.verificarTransitabilidad();
     }
 
     public boolean estaDentroDelTablero(int fila, int columna) {
