@@ -17,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Panel visual que representa el tablero de juego en la UI de JavaFX.
@@ -24,6 +25,8 @@ import java.util.Map;
  * los modelos.
  */
 public class PanelTablero extends GridPane implements Dibujador<StackPane> {
+    private static final Logger LOGGER =
+            Logger.getLogger(PanelTablero.class.getName());
 
     private Tablero tablero;
 
@@ -120,7 +123,7 @@ public class PanelTablero extends GridPane implements Dibujador<StackPane> {
         InputStream stream = getClass().getResourceAsStream(ruta);
 
         if (stream == null) {
-            System.out.println("No se encontró la imagen: " + ruta);
+            LOGGER.warning("No se encontró la imagen: " + ruta);
             return null;
         }
 

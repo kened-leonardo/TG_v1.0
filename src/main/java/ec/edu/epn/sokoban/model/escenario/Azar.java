@@ -2,14 +2,20 @@ package ec.edu.epn.sokoban.model.escenario;
 
 import ec.edu.epn.sokoban.model.interfaces.Accion;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * Accion concreta que representa una casilla de Azar.
  */
 public class Azar implements Accion {
 
+    private static final Logger LOGGER =
+            Logger.getLogger(Azar.class.getName());
+
     private final Random random;
     private final double probabilidadExito;
+
+
 
     /** Reaccion ante la derrota o resultado desfavorable. */
     private static Runnable notificadorDerrota;
@@ -35,18 +41,18 @@ public class Azar implements Accion {
         boolean tuvoSuerte = random.nextDouble() < probabilidadExito;
 
         if (tuvoSuerte) {
-            System.out.println("Tuviste suerte: la casilla es segura.");
+            LOGGER.info("Tuviste suerte: la casilla es segura.");
         } else {
-            System.out.println("Mala suerte: la casilla activo trampa.");
+            LOGGER.info("Mala suerte: la casilla activo trampa.");
 
             if (entidad instanceof Personaje) {
-                System.out.println("El personaje ha caido en la trampa.");
+                LOGGER.info("El personaje ha caido en la trampa.");
                 tablero.restaurarCasillaBase(entidad.getFila(), entidad.getColumna());
                 if (notificadorDerrota != null) {
                     notificadorDerrota.run();
                 }
             } else if (entidad instanceof Caja) {
-                System.out.println("La caja fue destruida por la trampa.");
+                LOGGER.info("La caja fue destruida por la trampa.");
                 tablero.restaurarCasillaBase(entidad.getFila(), entidad.getColumna());
                 if (notificadorDerrota != null) {
                     notificadorDerrota.run();

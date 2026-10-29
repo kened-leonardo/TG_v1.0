@@ -419,9 +419,9 @@ public class VentanaPrincipal extends BorderPane {
             for (int f = 0; f < t.getFilas(); f++) {
                 for (int c = 0; c < t.getColumnas(); c++) {
                     Casilla casilla = t.obtenerCasilla(f, c);
-                    if (casilla instanceof Caja) {
+                    if (casilla instanceof Caja caja) {
                         totalCajas++;
-                        if (((Caja) casilla).isEnMeta()) {
+                        if (caja.isEnMeta()) {
                             cajasEnMeta++;
                         }
                     }

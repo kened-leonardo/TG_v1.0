@@ -64,8 +64,8 @@ public class CargadorTablero {
                     if (casilla instanceof Meta) {
                         metas[fila][columna] = true;
                     }
-                    if (casilla instanceof Personaje) {
-                        personaje = (Personaje) casilla;
+                    if (casilla instanceof Personaje p) {
+                        personaje = p;
                     }
                 }
             }

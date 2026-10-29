@@ -76,8 +76,9 @@ public class PartidaMomento {
             copia = new Meta(c.getFila(), c.getColumna());
         } else if (c instanceof Personaje) {
             copia = new Personaje(c.getFila(), c.getColumna());
-        } else if (c instanceof Caja) {
-            copia = new Caja(c.getFila(), c.getColumna(), ((Caja) c).isEnMeta());
+        } else if (c instanceof Caja caja) {
+            copia = new Caja(c.getFila(), c.getColumna(), caja.isEnMeta());
+
         } else {
             copia = new Suelo(c.getFila(), c.getColumna());
         }
@@ -90,19 +91,16 @@ public class PartidaMomento {
     }
 
     private Accion copiarAccion(Accion a) {
-        if (a instanceof Agrietado) {
-            Agrietado orig = (Agrietado) a;
+        if (a instanceof Agrietado orig) {
             Agrietado copia = new Agrietado();
             copia.setAgrietado(orig.isAgrietado());
             copia.setRoto(orig.isRoto());
             return copia;
-        } else if (a instanceof Explosion) {
-            Explosion orig = (Explosion) a;
+        } else if (a instanceof Explosion orig) {
             Explosion copia = new Explosion();
             copia.setDetonada(orig.isDetonada());
             return copia;
-        } else if (a instanceof Teletransportacion) {
-            Teletransportacion orig = (Teletransportacion) a;
+        } else if (a instanceof Teletransportacion orig) {
             return new Teletransportacion(orig.getFilaDestino(), orig.getColumnaDestino());
         }
         return a;
