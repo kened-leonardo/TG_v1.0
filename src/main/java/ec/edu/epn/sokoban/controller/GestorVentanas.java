@@ -44,18 +44,17 @@ public class GestorVentanas {
         final FlujoMovimiento flujo = new FlujoMovimiento();
 
         ControladorTeclado controlador = new ControladorTeclado(
-            tablero.getPersonaje(), 
-            tablero, 
-            juego.getReglasJuego().getGestorColisiones()
-        );
+                tablero.getPersonaje(),
+                tablero,
+                juego.getReglasJuego().getGestorColisiones());
         controlador.setVentanaPrincipal(ventana);
-        controlador.setCheckNivelCompletado(() ->
-            juego.getNivelActual() != null && juego.getNivelActual().isCompletado());
-        
+        controlador
+                .setCheckNivelCompletado(() -> juego.getNivelActual() != null && juego.getNivelActual().isCompletado());
+
         controlador.setAntesDeMover(() -> {
             flujo.estadoAnterior = juego.capturarEstadoActual();
         });
-        
+
         controlador.setDespuesDeMover(() -> {
             if (flujo.estadoAnterior != null) {
                 juego.getHistorial().registrarEstado(flujo.estadoAnterior);
@@ -63,7 +62,7 @@ public class GestorVentanas {
             }
             juego.registrarVictoria();
         });
-        
+
         controlador.setAccionDeshacer(() -> {
             juego.deshacerUltimaAccion();
             Tablero tableroRestaurado = juego.getTableroActual();
@@ -72,10 +71,9 @@ public class GestorVentanas {
             ventana.actualizarEstadisticas();
         });
 
-        // Callback compartido de derrota (Lava, Agrietado, Azar): al perder muestra el overlay de derrota.
-        Runnable accionDerrota = () -> Platform.runLater(() -> {
-            ventana.mostrarOverlayDerrota();
-        });
+        // Callback compartido de derrota (Lava, Agrietado, Azar): al perder muestra el
+        // overlay de derrota.
+        Runnable accionDerrota = () -> Platform.runLater(ventana::mostrarOverlayDerrota);
 
         Lava.registrarNotificadorDerrota(accionDerrota);
         Agrietado.registrarNotificadorReinicio(accionDerrota);

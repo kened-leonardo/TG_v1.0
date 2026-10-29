@@ -21,7 +21,7 @@ public class Azar implements Accion {
     private static Runnable notificadorDerrota;
 
     public Azar(double probabilidadExito) {
-        this.probabilidadExito = Math.max(0.0, Math.min(1.0, probabilidadExito));
+        this.probabilidadExito = Math.clamp(probabilidadExito, 0.0, 1.0);
         this.random = new Random();
     }
 
