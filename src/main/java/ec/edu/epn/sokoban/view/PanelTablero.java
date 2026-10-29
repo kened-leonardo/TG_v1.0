@@ -27,6 +27,9 @@ import java.util.logging.Logger;
 public class PanelTablero extends GridPane implements Dibujador<StackPane> {
     private static final Logger LOGGER =
             Logger.getLogger(PanelTablero.class.getName());
+    private static final String PARED = "PARED";
+    private static final String JUGADOR = "JUGADOR";
+    private static final String COLOR_META = "#F4D35E";
 
     private Tablero tablero;
 
@@ -106,11 +109,11 @@ public class PanelTablero extends GridPane implements Dibujador<StackPane> {
     }
 
     private void cargarSprites() {
-        sprites.put("PARED", cargarImagen("/images/wall.png"));
+        sprites.put(PARED, cargarImagen("/images/wall.png"));
         sprites.put("SUELO", cargarImagen("/images/floor.png"));
         sprites.put("META", cargarImagen("/images/goal.png"));
         sprites.put("CAJA", cargarImagen("/images/box.png"));
-        sprites.put("JUGADOR", cargarImagen("/images/player.png"));
+        sprites.put(JUGADOR, cargarImagen("/images/player.png"));
         sprites.put("AZAR", cargarImagen("/images/azar.png"));
         sprites.put("AGRIETADO", cargarImagen("/images/agrietado.png"));
         sprites.put("AGRIETADO_ROTO", cargarImagen("/images/agrietado_roto.png"));
@@ -217,7 +220,7 @@ public class PanelTablero extends GridPane implements Dibujador<StackPane> {
 
             ImageView imageView = crearImageView(sprite, tamanioSprite);
 
-            if (!claveSprite.equals("PARED")) {
+            if (!claveSprite.equals(PARED)) {
                 DropShadow sombra = new DropShadow();
                 sombra.setRadius(6);
                 sombra.setOffsetY(3);
@@ -234,7 +237,7 @@ public class PanelTablero extends GridPane implements Dibujador<StackPane> {
     private double obtenerTamanoSprite(String claveSprite) {
         return switch (claveSprite) {
             case "CAJA" -> tamCelda * 0.78;
-            case "JUGADOR" -> tamCelda * 0.88;
+            case JUGADOR -> tamCelda * 0.88;
             case "META" -> tamCelda * 0.97;
             default -> tamCelda;
         };
@@ -263,7 +266,7 @@ public class PanelTablero extends GridPane implements Dibujador<StackPane> {
     @Override
     public void dibujarPared(Pared pared, StackPane celda, int tamCelda) {
         celda.getChildren().clear();
-        Image sprite = sprites.get("PARED");
+        Image sprite = sprites.get(PARED);
         if (sprite != null) {
             ImageView imageView = crearImageView(sprite, tamCelda);
             celda.getChildren().add(imageView);
@@ -277,7 +280,7 @@ public class PanelTablero extends GridPane implements Dibujador<StackPane> {
         agregarSueloBase(celda);
         dibujarAccionesDeCasilla(caja.getFila(), caja.getColumna(), celda);
         if (caja.isEnMeta()) {
-            agregarSprite(celda, "META", Color.web("#F4D35E"));
+            agregarSprite(celda, "META", Color.web(COLOR_META));
         }
 
         String spriteKey = "CAJA";
@@ -299,16 +302,17 @@ public class PanelTablero extends GridPane implements Dibujador<StackPane> {
         agregarSueloBase(celda);
         dibujarAccionesDeCasilla(personaje.getFila(), personaje.getColumna(), celda);
         if (tablero != null && tablero.esCeldaMeta(personaje.getFila(), personaje.getColumna())) {
-            agregarSprite(celda, "META", Color.web("#F4D35E"));
+            agregarSprite(celda, "META", Color.web(COLOR_META));
         }
-        agregarSprite(celda, "JUGADOR", Color.web("#4DA6FF"));
+        agregarSprite(celda, JUGADOR, Color.web("#4DA6FF"));
     }
 
     @Override
     public void dibujarMeta(Meta meta, StackPane celda, int tamCelda) {
         agregarSueloBase(celda);
         dibujarAccionesDeCasilla(meta.getFila(), meta.getColumna(), celda);
-        agregarSprite(celda, "META", Color.web("#F4D35E"));
+        agregarSprite(celda, "META", Color.web(COLOR_META));
+
     }
 
     @Override

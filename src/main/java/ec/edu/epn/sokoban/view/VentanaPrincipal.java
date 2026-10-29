@@ -123,8 +123,8 @@ public class VentanaPrincipal extends BorderPane {
         Region espacio1 = new Region();
         HBox.setHgrow(espacio1, Priority.ALWAYS);
 
-        lblNivel = crearEtiquetaSuperior("★  Nivel 1", "#F6B43A");
-        lblMovimientosSuperior = crearEtiquetaSuperior("Movimientos: 0", "#5BA8FF");
+        lblNivel = crearEtiquetaSuperior("★  Nivel 1");
+        lblMovimientosSuperior = crearEtiquetaSuperior("Movimientos: 0");
 
         Region espacio2 = new Region();
         HBox.setHgrow(espacio2, Priority.ALWAYS);
@@ -146,7 +146,7 @@ public class VentanaPrincipal extends BorderPane {
         return barra;
     }
 
-    private Label crearEtiquetaSuperior(String texto, String colorIcono) {
+    private Label crearEtiquetaSuperior(String texto) {
         Label label = new Label(texto);
         label.setMinWidth(175);
         label.setPrefWidth(175);
