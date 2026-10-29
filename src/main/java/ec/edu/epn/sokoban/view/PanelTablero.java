@@ -281,17 +281,16 @@ public class PanelTablero extends GridPane implements Dibujador<StackPane> {
         }
 
         String spriteKey = "CAJA";
-        if (caja != null) {
-            for (Accion accion : caja.getGestorAcciones().getAcciones()) {
-                String key = accion.getSpriteKey();
-                if (key != null && !key.isEmpty()) {
-                    spriteKey = key;
-                    break;
-                }
+        for (Accion accion : caja.getGestorAcciones().getAcciones()) {
+            String key = accion.getSpriteKey();
+            if (key != null && !key.isEmpty()) {
+                spriteKey = key;
+                break;
             }
         }
 
-        Color colorRespaldo = spriteKey.equals("CAJA") ? Color.web("#B8793B") : obtenerColorRespaldoParaAccion(spriteKey);
+        Color colorRespaldo = spriteKey.equals("CAJA") ? Color.web("#B8793B")
+                : obtenerColorRespaldoParaAccion(spriteKey);
         agregarSprite(celda, spriteKey, colorRespaldo);
     }
 
@@ -319,7 +318,8 @@ public class PanelTablero extends GridPane implements Dibujador<StackPane> {
     }
 
     private void dibujarAccionesDeCasilla(int fila, int columna, StackPane celda) {
-        if (tablero == null) return;
+        if (tablero == null)
+            return;
         Casilla casilla = tablero.obtenerCasillaBase(fila, columna);
         if (casilla != null) {
             for (Accion accion : casilla.getGestorAcciones().getAcciones()) {
@@ -333,8 +333,8 @@ public class PanelTablero extends GridPane implements Dibujador<StackPane> {
     }
 
     private Color obtenerColorRespaldoParaAccion(String spriteKey) {
-        return switch (spriteKey){
-            case "AZAR" -> Color.web("#FFD700"); //Color dorado de respaldo
+        return switch (spriteKey) {
+            case "AZAR" -> Color.web("#FFD700"); // Color dorado de respaldo
             case "AGRIETADO" -> Color.web("#6B5140");
             case "AGRIETADO_ROTO" -> Color.web("#1F1712");
             case "LAVA" -> Color.web("#FF4500"); // Grupo 2: respaldo naranja/rojo
