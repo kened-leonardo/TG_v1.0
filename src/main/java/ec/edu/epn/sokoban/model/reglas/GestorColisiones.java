@@ -11,10 +11,13 @@ import ec.edu.epn.sokoban.model.escenario.Tablero;
 public final class GestorColisiones {
 
     public GestorColisiones() {
+        // Constructor vacío intencional: la clase no mantiene estado
+        // ni requiere inicialización.
     }
 
     /**
-     * Procesa y valida el movimiento del personaje y empuje de cajas sobre el tablero.
+     * Procesa y valida el movimiento del personaje y empuje de cajas sobre el
+     * tablero.
      *
      * @param tablero        tablero activo
      * @param personaje      personaje a desplazar
@@ -43,12 +46,12 @@ public final class GestorColisiones {
             if (!tablero.esCeldaTransitable(filaDestino, columnaDestino)) {
                 return false;
             }
-            
+
             Casilla casillaDestino = tablero.obtenerCasilla(filaDestino, columnaDestino);
             if (!casillaDestino.getGestorAcciones().puedenIngresarAcciones(tablero, personaje)) {
                 return false;
             }
-            
+
             tablero.actualizarCasilla(filaDestino, columnaDestino, personaje);
             casillaDestino.getGestorAcciones().ejecutarAcciones(casillaDestino, tablero, personaje);
             return true;
@@ -81,7 +84,8 @@ public final class GestorColisiones {
         Casilla casillaBasePersonaje = tablero.obtenerCasillaBase(filaDestino, columnaDestino);
 
         if (!casillaDestinoCaja.getGestorAcciones().puedenIngresarAcciones(tablero, caja)
-                || (casillaBasePersonaje != null && !casillaBasePersonaje.getGestorAcciones().puedenIngresarAcciones(tablero, personaje))) {
+                || (casillaBasePersonaje != null
+                        && !casillaBasePersonaje.getGestorAcciones().puedenIngresarAcciones(tablero, personaje))) {
             return false;
         }
 

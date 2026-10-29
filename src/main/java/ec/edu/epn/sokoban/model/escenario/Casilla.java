@@ -12,11 +12,11 @@ public abstract class Casilla {
     private int columna;
     private final GestorAcciones gestorAcciones;
 
-    public Casilla() {
+    protected Casilla() {
         this.gestorAcciones = new GestorAcciones();
     }
 
-    public Casilla(int fila, int columna) {
+    protected Casilla(int fila, int columna) {
         this.gestorAcciones = new GestorAcciones();
         this.fila = fila;
         this.columna = columna;
@@ -43,12 +43,13 @@ public abstract class Casilla {
     }
 
     /**
-     * Intenta mover la casilla en el tablero en la dirección dada usando un gestor de colisiones.
+     * Intenta mover la casilla en el tablero en la dirección dada usando un gestor
+     * de colisiones.
      * Por defecto las casillas no se mueven (retorna false).
      * Las subclases (como Personaje o Caja) sobrescriben este comportamiento.
      *
-     * @param d la dirección del movimiento
-     * @param t el tablero sobre el cual se realiza el movimiento
+     * @param d                la dirección del movimiento
+     * @param t                el tablero sobre el cual se realiza el movimiento
      * @param gestorColisiones el gestor de colisiones único
      * @return true si el movimiento fue exitoso, false en caso contrario
      */
@@ -61,5 +62,3 @@ public abstract class Casilla {
      */
     public abstract <T> void dibujar(Dibujador<T> dibujador, T contenedor, int tamCelda);
 }
-
-

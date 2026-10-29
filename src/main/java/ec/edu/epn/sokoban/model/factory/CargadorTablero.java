@@ -9,9 +9,17 @@ import ec.edu.epn.sokoban.model.escenario.Tablero;
  * Clase encargada de validar, estructurar e inicializar un tablero.
  */
 public class CargadorTablero {
+    private CargadorTablero() {
+        // Clase de utilidad: no debe instanciarse.
+    }
 
     /**
-     * Carga y retorna una instancia de Tablero completamente validada y sincronizada.
+     * Carga y retorna una instancia de Tablero completamente validada y
+     * sincronizada.
+     * ...
+     */
+
+    /**
      *
      * @param celdas la matriz bidimensional de casillas
      * @param metas  la matriz de metas registradas
@@ -60,7 +68,7 @@ public class CargadorTablero {
                 if (casilla != null) {
                     casilla.setFila(fila);
                     casilla.setColumna(columna);
-                    
+
                     if (casilla instanceof Meta) {
                         metas[fila][columna] = true;
                     }

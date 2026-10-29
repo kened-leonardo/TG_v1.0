@@ -7,7 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Coordinador del Patrón Strategy para gestionar las acciones dinámicas de una casilla.
+ * Coordinador del Patrón Strategy para gestionar las acciones dinámicas de una
+ * casilla.
  */
 public class GestorAcciones {
 
@@ -52,7 +53,12 @@ public class GestorAcciones {
         }
     }
 
-    @Deprecated
+    /**
+     * Ejecuta las acciones sin contexto.
+     *
+     * @deprecated Usar {@link #ejecutarAcciones(Casilla, Tablero, Casilla)}.
+     */
+    @Deprecated(since = "1.1", forRemoval = true)
     public void ejecutarAcciones() {
         ejecutarAcciones(null, null, null);
     }

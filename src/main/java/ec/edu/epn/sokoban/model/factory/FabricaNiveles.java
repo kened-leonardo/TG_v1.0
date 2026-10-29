@@ -18,11 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Fábrica encargada de instanciar y armar el tablero a partir del mapa de datos del nivel.
+ * Fábrica encargada de instanciar y armar el tablero a partir del mapa de datos
+ * del nivel.
  */
 public class FabricaNiveles {
 
     public FabricaNiveles() {
+        // Constructor vacío intencional: la fábrica no mantiene estado
+        // ni requiere inicialización.
     }
 
     public Tablero construirTablero(Nivel n) {

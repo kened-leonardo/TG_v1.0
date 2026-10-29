@@ -34,7 +34,14 @@ public class PartidaMomento {
         }
     }
 
-    @Deprecated
+    /**
+ * Crea un momento vacío a partir de posiciones sueltas.
+ *
+ * @param posicionesCajas posiciones de las cajas (sin uso)
+ * @param posicionJugador posición del jugador (sin uso)
+ * @deprecated Usar {@link #PartidaMomento(Tablero)}.
+ */
+    @Deprecated(since = "1.1", forRemoval = true)
     public PartidaMomento(Map<Caja, Casilla> posicionesCajas, Casilla posicionJugador) {
         this.filas = 0;
         this.columnas = 0;

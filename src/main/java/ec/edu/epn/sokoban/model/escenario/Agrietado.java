@@ -8,15 +8,15 @@ import ec.edu.epn.sokoban.model.interfaces.Accion;
  */
 public class Agrietado implements Accion {
     private static Runnable notificadorReinicio;
-    private boolean agrietado;
+    private boolean estaAgrietado;
     private boolean roto;
 
     public boolean isAgrietado() {
-        return agrietado;
+        return estaAgrietado;
     }
 
     public void setAgrietado(boolean agrietado) {
-        this.agrietado = agrietado;
+        this.estaAgrietado = agrietado;
     }
 
     public boolean isRoto() {
@@ -41,10 +41,10 @@ public class Agrietado implements Accion {
             if (notificadorReinicio != null) {
                 notificadorReinicio.run();
             }
-        } else if (agrietado) {
+        } else if (estaAgrietado) {
             roto = true;
         } else {
-            agrietado = true;
+            estaAgrietado = true;
         }
     }
 
@@ -53,6 +53,6 @@ public class Agrietado implements Accion {
         if (roto) {
             return "AGRIETADO_ROTO";
         }
-        return agrietado ? "AGRIETADO" : null;
+        return estaAgrietado ? "AGRIETADO" : null;
     }
 }

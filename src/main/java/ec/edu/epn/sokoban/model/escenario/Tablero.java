@@ -115,8 +115,8 @@ public class Tablero extends Casilla {
      * que restaurarCasillaBase() (invocado cuando un Personaje o Caja
      * abandona esa posicion) no reconstruya el terreno anterior.
      *
-     * @param f fila de la posicion a modificar
-     * @param c columna de la posicion a modificar
+     * @param f            fila de la posicion a modificar
+     * @param c            columna de la posicion a modificar
      * @param nuevoTerreno la nueva casilla de terreno (por ejemplo, un Suelo)
      */
     public void reemplazarTerrenoPermanente(int f, int c, Casilla nuevoTerreno) {
@@ -172,5 +172,7 @@ public class Tablero extends Casilla {
 
     @Override
     public <T> void dibujar(Dibujador<T> dibujador, T contenedor, int tamCelda) {
+        // Intencionalmente vacío: el Tablero no se dibuja a sí mismo;
+        // el renderizado de las casillas lo realiza cada elemento por separado.
     }
 }
