@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class GestorVentanas {
+    private static final String TITULO_JUEGO = "Sokoban";
 
     private final Stage stage;
     private final JuegoSokoban juego;
@@ -86,7 +87,7 @@ public class GestorVentanas {
         Scene scene = new Scene(ventana, 1280, 720);
         scene.setOnKeyPressed(controlador);
 
-        stage.setTitle("Sokoban");
+        stage.setTitle(TITULO_JUEGO);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
@@ -120,7 +121,7 @@ public class GestorVentanas {
 
         Scene scene = new Scene(menu, 1280, 720);
 
-        stage.setTitle("Sokoban");
+        stage.setTitle(TITULO_JUEGO);
         stage.setScene(scene);
         stage.show();
 
@@ -160,7 +161,7 @@ public class GestorVentanas {
 
         Scene scene = new Scene(creditos, 1280, 720);
 
-        stage.setTitle("Sokoban");
+        stage.setTitle(TITULO_JUEGO);
         stage.setScene(scene);
         stage.show();
 
