@@ -12,10 +12,12 @@ import java.util.function.BooleanSupplier;
 
 /**
  * Event handler de teclado de JavaFX.
- * Se comunica directamente con la clase Personaje y Tablero para invocar el movimiento,
+ * Se comunica directamente con la clase Personaje y Tablero para invocar el
+ * movimiento,
  * utilizando el GestorColisiones único.
  */
 public class ControladorTeclado implements EventHandler<KeyEvent> {
+
     private Personaje personaje;
     private Tablero tablero;
     private final GestorColisiones gestorColisiones;
@@ -65,79 +67,115 @@ public class ControladorTeclado implements EventHandler<KeyEvent> {
         this.checkNivelCompletado = checkNivelCompletado;
     }
 
+    // ------------------------------------------------------------------
+    // Método principal: ahora solo orquesta, cada paso tiene nombre propio
+    // ------------------------------------------------------------------
     @Override
     public void handle(KeyEvent evento) {
-        if (checkNivelCompletado != null && checkNivelCompletado.getAsBoolean()) {
+        if (esNivelCompletado()) {
             return;
         }
 
         KeyCode codigo = evento.getCode();
 
-        Direccion direccionElegida = null;
-
-        switch (codigo) {
-            case UP:
-            case W:
-                direccionElegida = Direccion.ARRIBA;
-                break;
-            case DOWN:
-            case S:
-                direccionElegida = Direccion.ABAJO;
-                break;
-            case LEFT:
-            case A:
-                direccionElegida = Direccion.IZQUIERDA;
-                break;
-            case RIGHT:
-            case D:
-                direccionElegida = Direccion.DERECHA;
-                break;
-            case Z:
-            case BACK_SPACE:
-            case U:
-                if (accionDeshacer != null) {
-                    long ahoraUndo = System.currentTimeMillis();
-                    if (ahoraUndo - ultimoMovimientoTiempo >= 40) {
-                        ultimoMovimientoTiempo = ahoraUndo;
-                        ultimoCodigo = codigo;
-                        accionDeshacer.run();
-                    }
-                }
-                return;
-            default:
-                return; // Ignora cualquier otra tecla
+        if (esTeclaDeshacer(codigo)) {
+            procesarDeshacer(codigo);
+            return;
         }
 
-        long ahora = System.currentTimeMillis();
-        long cooldownRequerido = (codigo == ultimoCodigo) ? 50 : 20;
+        Direccion direccion = obtenerDireccion(codigo);
+        if (direccion == null) {
+            return; // Ignora cualquier otra tecla
+        }
 
-        if (ahora - ultimoMovimientoTiempo < cooldownRequerido) {
+        if (!registrarPulsacionSiPermitida(codigo, calcularCooldownMovimiento(codigo))) {
             return;
+        }
+
+        procesarMovimiento(direccion);
+    }
+
+    // ----------------------- Extract Method -----------------------
+
+    private boolean esNivelCompletado() {
+        return checkNivelCompletado != null && checkNivelCompletado.getAsBoolean();
+    }
+
+    private boolean esTeclaDeshacer(KeyCode codigo) {
+        return codigo == KeyCode.Z || codigo == KeyCode.BACK_SPACE || codigo == KeyCode.U;
+    }
+
+    private void procesarDeshacer(KeyCode codigo) {
+        if (accionDeshacer != null && registrarPulsacionSiPermitida(codigo, 40)) {
+            accionDeshacer.run();
+        }
+    }
+
+    private Direccion obtenerDireccion(KeyCode codigo) {
+        return switch (codigo) {
+            case UP, W -> Direccion.ARRIBA;
+            case DOWN, S -> Direccion.ABAJO;
+            case LEFT, A -> Direccion.IZQUIERDA;
+            case RIGHT, D -> Direccion.DERECHA;
+            default -> null;
+        };
+    }
+
+    private long calcularCooldownMovimiento(KeyCode codigo) {
+        return (codigo == ultimoCodigo) ? 50 : 20;
+    }
+
+    /**
+     * Verifica el tiempo mínimo entre pulsaciones y, si se cumple, registra la
+     * pulsación.
+     */
+    private boolean registrarPulsacionSiPermitida(KeyCode codigo, long cooldownRequerido) {
+        long ahora = System.currentTimeMillis();
+        if (ahora - ultimoMovimientoTiempo < cooldownRequerido) {
+            return false;
         }
         ultimoMovimientoTiempo = ahora;
         ultimoCodigo = codigo;
+        return true;
+    }
 
-        Personaje personajeActual = (tablero != null && tablero.getPersonaje() != null) ? tablero.getPersonaje() : personaje;
-        if (personajeActual != null) {
-            this.personaje = personajeActual;
+    private Personaje resolverPersonajeActual() {
+        Personaje actual = (tablero != null && tablero.getPersonaje() != null)
+                ? tablero.getPersonaje()
+                : personaje;
+        if (actual != null) {
+            this.personaje = actual;
         }
+        return actual;
+    }
 
-        if (direccionElegida != null && personajeActual != null && tablero != null && gestorColisiones != null) {
-            if (antesDeMover != null) {
-                antesDeMover.run();
+    private void procesarMovimiento(Direccion direccion) {
+        Personaje actual = resolverPersonajeActual();
+
+        if (actual != null && tablero != null && gestorColisiones != null) {
+            ejecutarSiExiste(antesDeMover);
+
+            if (actual.mover(direccion, tablero, gestorColisiones)) {
+                alMoverseConExito();
             }
+        }
+    }
 
-            boolean movimientoRealizado = personajeActual.mover(direccionElegida, tablero, gestorColisiones);
+    private void alMoverseConExito() {
+        ejecutarSiExiste(despuesDeMover);
+        actualizarVista();
+    }
 
-            if (movimientoRealizado) {
-                if (despuesDeMover != null) {
-                    despuesDeMover.run();
-                }
-                if (ventanaPrincipal != null) {
-                    ventanaPrincipal.actualizarTablero(tablero);
-                    ventanaPrincipal.actualizarEstadisticas();
-                }
-            }
+    private void actualizarVista() {
+        if (ventanaPrincipal != null) {
+            ventanaPrincipal.actualizarTablero(tablero);
+            ventanaPrincipal.actualizarEstadisticas();
+        }
+    }
+
+    private void ejecutarSiExiste(Runnable accion) {
+        if (accion != null) {
+            accion.run();
         }
     }
 }
