@@ -42,22 +42,7 @@ public final class GestorColisiones {
 
         Caja caja = tablero.obtenerCajaEnPosicion(filaDestino, columnaDestino);
         if (caja == null) {
-<<<<<<< HEAD
-            if (!tablero.esCeldaTransitable(filaDestino, columnaDestino)) {
-                return false;
-            }
-
-            Casilla casillaDestino = tablero.obtenerCasilla(filaDestino, columnaDestino);
-            if (!casillaDestino.getGestorAcciones().puedenIngresarAcciones(tablero, personaje)) {
-                return false;
-            }
-
-            tablero.actualizarCasilla(filaDestino, columnaDestino, personaje);
-            casillaDestino.getGestorAcciones().ejecutarAcciones(casillaDestino, tablero, personaje);
-            return true;
-=======
             return moverPersonajeSinCaja(tablero, personaje, filaDestino, columnaDestino);
->>>>>>> 792ce4c041297328c912e621726d035d07592791
         }
 
         return empujarCaja(tablero, personaje, caja, filaDestino, columnaDestino, deltaFila, deltaColumna);
